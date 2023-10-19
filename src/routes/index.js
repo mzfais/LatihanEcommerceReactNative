@@ -8,9 +8,17 @@ const Stack = createNativeStackNavigator();
 export default function Routes() {
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{headerShown: true}}>
-        <Stack.Screen name="Main" component={HomeTabs} />
-        <Stack.Screen name="Detail" component={DetailScreen} />
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Main"
+          component={HomeTabs}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Detail"
+          options={{title: 'E-commerce | Detail', headerShown: true}}
+          component={DetailScreen}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -10,8 +10,8 @@ export default function HomeTabs() {
   return (
     <Tab.Navigator
       screenOptions={{
-        headerShown: false,
-        tabBarShowLabel: false,
+        headerShown: true, // tampilkan header title
+        tabBarShowLabel: false, // sembunyikan label pada bottom tab
         tabBarStyle: {
           paddingHorizontal: 5,
           paddingTop: 0,
@@ -36,6 +36,8 @@ export default function HomeTabs() {
               color={color}
             />
           ),
+          headerTitle: 'Ecommerce | Home', // title pada header
+          tabBarLabel: 'Home', // title pada bottom tab
         }}
         name="Home"
         component={HomeScreen}
@@ -49,6 +51,8 @@ export default function HomeTabs() {
               color={color}
             />
           ),
+          headerTitle: 'Favourite',
+          tabBarLabel: 'Favourite',
         }}
         name="Favorite"
         component={FavoriteScreen}
