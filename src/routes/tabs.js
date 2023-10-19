@@ -35,7 +35,7 @@ export default function HomeTabs() {
               color={color}
             />
           ),
-          headerTitle: 'Ecommerce | Home', // title pada header
+          headerTitle: 'Omah Klambi Yunita | Home', // title pada header
           tabBarLabel: 'Home', // title pada bottom tab
         }}
         name="Home"
