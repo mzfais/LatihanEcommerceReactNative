@@ -3,6 +3,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import HomeScreen from '../views/screens/home/HomeScreen';
 import FavoriteScreen from '../views/screens/home/Favorite';
 import Icon from 'react-native-vector-icons/Ionicons';
+import ProductScreen from '../views/screens/home/Product';
 
 const Tab = createBottomTabNavigator();
 
@@ -40,6 +41,21 @@ export default function HomeTabs() {
         }}
         name="Home"
         component={HomeScreen}
+      />
+      <Tab.Screen
+        options={{
+          tabBarIcon: ({focused, color, size}) => (
+            <Icon
+              name={focused ? 'list' : 'list-outline'}
+              size={size}
+              color={color}
+            />
+          ),
+          headerTitle: 'Product',
+          tabBarLabel: 'Product',
+        }}
+        name="Product"
+        component={ProductScreen}
       />
       <Tab.Screen
         options={{
