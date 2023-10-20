@@ -9,12 +9,17 @@ import {
 } from 'react-native';
 import React from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {IconButton} from 'react-native-paper';
+import {Card, IconButton} from 'react-native-paper';
 import Carousel from 'react-native-reanimated-carousel';
+const kaosJpg = require('../../../../assets/kaos.jpeg');
 
 const styles = StyleSheet.create({
-  container: {
-    margin: 15,
+  mainContainer: {
+    flex: 1,
+    padding: 10,
+    gap: 10, // jarak antar elemen 10px
+  },
+  searchBarContainer: {
     flexDirection: 'row',
     alignItems: 'center',
   },
@@ -26,7 +31,7 @@ const styles = StyleSheet.create({
     paddingVertical: 6, // padding dibedakan agar textinput tidak tertutup elemen view
     paddingHorizontal: 10,
     gap: 10,
-    marginHorizontal: 5,
+    // marginHorizontal: 5,
     flex: 1,
   },
   searchInput: {
@@ -52,7 +57,37 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   listCategory: {
-    paddingVertical: 10,
+    paddingVertical: 6,
+  },
+  iconButton: {
+    margin: 5,
+    borderRadius: 10,
+    backgroundColor: '#fff',
+    width: 100,
+    height: 50,
+  },
+  productTextHeader: {
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  cardContainer: {
+    width: 150,
+    marginRight: 12,
+    // overflow: 'hidden',
+  },
+  // cardbody untuk menghilangkan warning terkait shadow akibat overflow hidden yang muncul jika diterapkan pada parent card
+  cardBody: {
+    overflow: 'hidden',
+    borderTopStartRadius: 12,
+    borderTopEndRadius: 12,
+  },
+  cardCover: {
+    height: 150,
+    borderRadius: 0,
+  },
+  cardTextLabel: {
+    fontWeight: 500,
+    fontSize: 16,
   },
 });
 const category = StyleSheet.create({
@@ -91,8 +126,9 @@ export default function HomeScreen({navigation}) {
     },
   ];
   return (
-    <>
-      <View style={styles.container}>
+    <View style={styles.mainContainer}>
+      {/* searchbar component */}
+      <View style={styles.searchBarContainer}>
         <View style={[styles.searchBar, styles.borderShadow]}>
           <Icon name="search" size={12} />
           <TextInput
@@ -102,35 +138,34 @@ export default function HomeScreen({navigation}) {
         </View>
         <IconButton icon="menu" />
       </View>
-      <View style={{...styles.container, marginTop: 0}}>
-        <View style={styles.listCategory}>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            <View style={{...category.item, marginLeft: 24}}>
-              <Text style={{...category.title, color: 'rgba(53, 88, 225, 1)'}}>
-                Populer
-              </Text>
-            </View>
-            <View style={category.item}>
-              <Text style={category.title}>Fashion Pria</Text>
-            </View>
-            <View style={category.item}>
-              <Text style={category.title}>Fashion Wanita</Text>
-            </View>
-            <View style={category.item}>
-              <Text style={category.title}>Fashion Anak</Text>
-            </View>
-            <View style={category.item}>
-              <Text style={category.title}>Fashion Muslim</Text>
-            </View>
-            <View style={{...category.item, marginRight: 24}}>
-              <Text style={category.title}>Asesoris</Text>
-            </View>
-          </ScrollView>
-        </View>
+      {/* mini list category component */}
+      <View style={styles.listCategory}>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+          <View style={category.item}>
+            <Text style={{...category.title, color: 'rgba(53, 88, 225, 1)'}}>
+              Populer
+            </Text>
+          </View>
+          <View style={category.item}>
+            <Text style={category.title}>Fashion Pria</Text>
+          </View>
+          <View style={category.item}>
+            <Text style={category.title}>Fashion Wanita</Text>
+          </View>
+          <View style={category.item}>
+            <Text style={category.title}>Fashion Anak</Text>
+          </View>
+          <View style={category.item}>
+            <Text style={category.title}>Fashion Muslim</Text>
+          </View>
+          <View style={{...category.item, marginRight: 16}}>
+            <Text style={category.title}>Asesoris</Text>
+          </View>
+        </ScrollView>
       </View>
+      {/* carousel component */}
       <View
         style={{
-          flex: 1,
           alignItems: 'center',
         }}>
         <Carousel
@@ -149,10 +184,51 @@ export default function HomeScreen({navigation}) {
               source={{
                 uri: item.imageUrl,
               }}
+              resizeMode="cover"
             />
           )}
         />
       </View>
-    </>
+      {/* category component */}
+      <View>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+          {Array.from(Array(10)).map(index => (
+            <IconButton
+              key={index}
+              icon={({size, color}) => (
+                <View style={{alignItems: 'center', justifyContent: 'center'}}>
+                  <Icon name="home-outline" size={size} color={color} />
+                  <Text style={{fontSize: 12}}>Home</Text>
+                </View>
+              )}
+              style={styles.iconButton}
+            />
+          ))}
+        </ScrollView>
+      </View>
+      {/* Product component */}
+      <View>
+        <Text style={styles.productTextHeader}>Terbaru</Text>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          style={{paddingVertical: 10}}>
+          {Array.from(Array(10)).map(index => (
+            <Card key={index} style={styles.cardContainer}>
+              <View style={styles.cardBody}>
+                <Card.Cover style={styles.cardCover} source={kaosJpg} />
+                <Card.Content
+                  style={{
+                    padding: 6,
+                  }}>
+                  <Text style={styles.cardTextLabel}>Kaos</Text>
+                  <Text>Rp. 79.000</Text>
+                </Card.Content>
+              </View>
+            </Card>
+          ))}
+        </ScrollView>
+      </View>
+    </View>
   );
 }
