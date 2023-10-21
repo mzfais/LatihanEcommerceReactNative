@@ -1,64 +1,23 @@
 import {
   View,
-  TextInput,
   StyleSheet,
   Text,
   useWindowDimensions,
-  Image,
   ScrollView,
-  FlatList,
-  Pressable,
   LogBox,
 } from 'react-native';
 import React, {useEffect} from 'react';
-import Icon from 'react-native-vector-icons/Ionicons';
-import {Card, IconButton} from 'react-native-paper';
-import Carousel from 'react-native-reanimated-carousel';
-const kaosJpg = require('../../../../assets/kaos.jpeg');
-const adsPromosi = require('../../../../assets/ads.png');
+import SearchBar from '../../../components/Global/SearchBar';
+import CustomCarousel from '../../../components/Home/CustomCarousel';
+import Category from '../../../components/Home/Category';
+import AdsPromotion from '../../../components/Home/AdsPromotion';
+import Popular from '../../../components/Home/Popular';
 
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
     padding: 10,
     gap: 10, // jarak antar elemen 10px
-  },
-  searchBarContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  searchBar: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    height: 32,
-    borderColor: 'gray',
-    paddingVertical: 6, // padding dibedakan agar textinput tidak tertutup elemen view
-    paddingHorizontal: 10,
-    gap: 10,
-    // marginHorizontal: 5,
-    flex: 1,
-  },
-  searchInput: {
-    paddingVertical: 1, // untuk menghindari elemen tidak terlihat di emulator android
-  },
-  borderShadow: {
-    borderRadius: 50,
-    shadowColor: 'gray',
-    shadowOffset: {
-      width: 2,
-      height: 1,
-    },
-    shadowOpacity: 5,
-    shadowRadius: 2,
-    elevation: 5,
-    borderTopWidth: 0,
-    borderLeftWidth: 0.2,
-    backgroundColor: '#f5f5f5',
-  },
-  imageCarousel: {
-    width: '100%',
-    height: '100%',
-    borderRadius: 10,
   },
   listCategory: {
     paddingVertical: 6,
@@ -69,10 +28,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     width: 100,
     height: 50,
-  },
-  productTextHeader: {
-    fontSize: 18,
-    fontWeight: 'bold',
   },
   cardContainer: {
     width: 150,
@@ -92,18 +47,6 @@ const styles = StyleSheet.create({
   cardTextLabel: {
     fontWeight: 500,
     fontSize: 16,
-  },
-  pressableComponent: {
-    flex: 1,
-    height: 100,
-    margin: 5,
-  },
-  pressableImg: {
-    width: '100%',
-    height: '100%',
-    borderRadius: 10,
-    borderWidth: 0.4,
-    borderColor: 'gray',
   },
 });
 const category = StyleSheet.create({
@@ -145,20 +88,11 @@ export default function HomeScreen({navigation}) {
         'https://s0.bukalapak.com/img/01488152992/s-463-463/270750f7_586e_4774_bda8_3b82ffcccbb2.jpg.webp',
     },
   ];
+
   return (
     <ScrollView>
       <View style={styles.mainContainer}>
-        {/* searchbar component */}
-        <View style={styles.searchBarContainer}>
-          <View style={[styles.searchBar, styles.borderShadow]}>
-            <Icon name="search" size={12} />
-            <TextInput
-              placeholder="Mau cari barang apa?"
-              style={styles.searchInput}
-            />
-          </View>
-          <IconButton icon="menu" />
-        </View>
+        <SearchBar />
         {/* mini list category component */}
         <View style={styles.listCategory}>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
@@ -184,88 +118,10 @@ export default function HomeScreen({navigation}) {
             </View>
           </ScrollView>
         </View>
-        {/* carousel component */}
-        <View
-          style={{
-            alignItems: 'center',
-          }}>
-          <Carousel
-            loop={false} // biar tidak looping
-            width={width - 30}
-            height={width / 2}
-            autoPlay={false} // matikan autoplay
-            data={dataCarousel}
-            pagingEnabled={true}
-            scrollAnimationDuration={1000}
-            // onSnap event saat item di scroll
-            // onSnapToItem={index => console.log('current index:', index)}
-            renderItem={({item}) => (
-              <Image
-                style={styles.imageCarousel}
-                source={{
-                  uri: item.imageUrl,
-                }}
-                resizeMode="cover"
-              />
-            )}
-          />
-        </View>
-        {/* category component */}
-        <View>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            {Array.from(Array(10)).map(index => (
-              <IconButton
-                key={index}
-                icon={({size, color}) => (
-                  <View
-                    style={{alignItems: 'center', justifyContent: 'center'}}>
-                    <Icon name="home-outline" size={size} color={color} />
-                    <Text style={{fontSize: 12}}>Home</Text>
-                  </View>
-                )}
-                style={styles.iconButton}
-              />
-            ))}
-          </ScrollView>
-        </View>
-        {/* Promotion component */}
-        <View>
-          <Text style={styles.productTextHeader}>Promosi Minggu ini</Text>
-          <FlatList
-            style={{marginTop: 6}}
-            data={Array(4)}
-            keyExtractor={(item, index) => item + index.toString()}
-            numColumns={2}
-            renderItem={() => (
-              <Pressable style={styles.pressableComponent}>
-                <Image source={adsPromosi} style={styles.pressableImg} />
-              </Pressable>
-            )}
-          />
-        </View>
-        {/* Product component */}
-        <View>
-          <Text style={styles.productTextHeader}>Terbaru</Text>
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            style={{paddingVertical: 10}}>
-            {Array.from(Array(10)).map(index => (
-              <Card key={index} style={styles.cardContainer}>
-                <View style={styles.cardBody}>
-                  <Card.Cover style={styles.cardCover} source={kaosJpg} />
-                  <Card.Content
-                    style={{
-                      padding: 6,
-                    }}>
-                    <Text style={styles.cardTextLabel}>Kaos</Text>
-                    <Text>Rp. 79.000</Text>
-                  </Card.Content>
-                </View>
-              </Card>
-            ))}
-          </ScrollView>
-        </View>
+        <CustomCarousel dataCarousel={dataCarousel} width={width} />
+        <Category />
+        <AdsPromotion />
+        <Popular />
       </View>
       {/* atas view kosong untuk menangani komponen paling bawah tertutup navigation saat di scroll ke bawah */}
       <View style={{marginTop: '15%'}} />
