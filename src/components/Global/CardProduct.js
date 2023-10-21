@@ -24,9 +24,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 });
-export default function CardProduct({itemKey}) {
+export default function CardProduct() {
   return (
-    <Card key={itemKey} style={styles.cardContainer}>
+    <Card style={styles.cardContainer}>
       <View style={styles.cardBody}>
         <Card.Cover style={styles.cardCover} source={kaosJpg} />
         <Card.Content

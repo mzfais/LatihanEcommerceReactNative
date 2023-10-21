@@ -9,7 +9,7 @@ export default function Popular() {
       <Text style={GlobalStyles.productTextHeader}>Terlaris</Text>
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
         {Array.from(Array(10)).map((item, index) => (
-          <CardProduct itemKey={index} />
+          <CardProduct key={index} />
         ))}
       </ScrollView>
     </View>
