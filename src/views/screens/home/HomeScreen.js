@@ -6,12 +6,16 @@ import {
   useWindowDimensions,
   Image,
   ScrollView,
+  FlatList,
+  Pressable,
+  LogBox,
 } from 'react-native';
-import React from 'react';
+import React, {useEffect} from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {Card, IconButton} from 'react-native-paper';
 import Carousel from 'react-native-reanimated-carousel';
 const kaosJpg = require('../../../../assets/kaos.jpeg');
+const adsPromosi = require('../../../../assets/ads.png');
 
 const styles = StyleSheet.create({
   mainContainer: {
@@ -89,6 +93,18 @@ const styles = StyleSheet.create({
     fontWeight: 500,
     fontSize: 16,
   },
+  pressableComponent: {
+    flex: 1,
+    height: 100,
+    margin: 5,
+  },
+  pressableImg: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 10,
+    borderWidth: 0.4,
+    borderColor: 'gray',
+  },
 });
 const category = StyleSheet.create({
   item: {
@@ -107,6 +123,10 @@ const category = StyleSheet.create({
   },
 });
 export default function HomeScreen({navigation}) {
+  useEffect(() => {
+    // ignore pesan eror karena terdapat flatlist di dalam scrollview
+    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
+  }, []);
   const {width} = useWindowDimensions();
   const dataCarousel = [
     {
@@ -126,109 +146,129 @@ export default function HomeScreen({navigation}) {
     },
   ];
   return (
-    <View style={styles.mainContainer}>
-      {/* searchbar component */}
-      <View style={styles.searchBarContainer}>
-        <View style={[styles.searchBar, styles.borderShadow]}>
-          <Icon name="search" size={12} />
-          <TextInput
-            placeholder="Mau cari barang apa?"
-            style={styles.searchInput}
+    <ScrollView>
+      <View style={styles.mainContainer}>
+        {/* searchbar component */}
+        <View style={styles.searchBarContainer}>
+          <View style={[styles.searchBar, styles.borderShadow]}>
+            <Icon name="search" size={12} />
+            <TextInput
+              placeholder="Mau cari barang apa?"
+              style={styles.searchInput}
+            />
+          </View>
+          <IconButton icon="menu" />
+        </View>
+        {/* mini list category component */}
+        <View style={styles.listCategory}>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            <View style={category.item}>
+              <Text style={{...category.title, color: 'rgba(53, 88, 225, 1)'}}>
+                Populer
+              </Text>
+            </View>
+            <View style={category.item}>
+              <Text style={category.title}>Fashion Pria</Text>
+            </View>
+            <View style={category.item}>
+              <Text style={category.title}>Fashion Wanita</Text>
+            </View>
+            <View style={category.item}>
+              <Text style={category.title}>Fashion Anak</Text>
+            </View>
+            <View style={category.item}>
+              <Text style={category.title}>Fashion Muslim</Text>
+            </View>
+            <View style={{...category.item, marginRight: 16}}>
+              <Text style={category.title}>Asesoris</Text>
+            </View>
+          </ScrollView>
+        </View>
+        {/* carousel component */}
+        <View
+          style={{
+            alignItems: 'center',
+          }}>
+          <Carousel
+            loop={false} // biar tidak looping
+            width={width - 30}
+            height={width / 2}
+            autoPlay={false} // matikan autoplay
+            data={dataCarousel}
+            pagingEnabled={true}
+            scrollAnimationDuration={1000}
+            // onSnap event saat item di scroll
+            // onSnapToItem={index => console.log('current index:', index)}
+            renderItem={({item}) => (
+              <Image
+                style={styles.imageCarousel}
+                source={{
+                  uri: item.imageUrl,
+                }}
+                resizeMode="cover"
+              />
+            )}
           />
         </View>
-        <IconButton icon="menu" />
-      </View>
-      {/* mini list category component */}
-      <View style={styles.listCategory}>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-          <View style={category.item}>
-            <Text style={{...category.title, color: 'rgba(53, 88, 225, 1)'}}>
-              Populer
-            </Text>
-          </View>
-          <View style={category.item}>
-            <Text style={category.title}>Fashion Pria</Text>
-          </View>
-          <View style={category.item}>
-            <Text style={category.title}>Fashion Wanita</Text>
-          </View>
-          <View style={category.item}>
-            <Text style={category.title}>Fashion Anak</Text>
-          </View>
-          <View style={category.item}>
-            <Text style={category.title}>Fashion Muslim</Text>
-          </View>
-          <View style={{...category.item, marginRight: 16}}>
-            <Text style={category.title}>Asesoris</Text>
-          </View>
-        </ScrollView>
-      </View>
-      {/* carousel component */}
-      <View
-        style={{
-          alignItems: 'center',
-        }}>
-        <Carousel
-          loop={false} // biar tidak looping
-          width={width - 30}
-          height={width / 2}
-          autoPlay={false} // matikan autoplay
-          data={dataCarousel}
-          pagingEnabled={true}
-          scrollAnimationDuration={1000}
-          // onSnap event saat item di scroll
-          // onSnapToItem={index => console.log('current index:', index)}
-          renderItem={({item}) => (
-            <Image
-              style={styles.imageCarousel}
-              source={{
-                uri: item.imageUrl,
-              }}
-              resizeMode="cover"
-            />
-          )}
-        />
-      </View>
-      {/* category component */}
-      <View>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-          {Array.from(Array(10)).map(index => (
-            <IconButton
-              key={index}
-              icon={({size, color}) => (
-                <View style={{alignItems: 'center', justifyContent: 'center'}}>
-                  <Icon name="home-outline" size={size} color={color} />
-                  <Text style={{fontSize: 12}}>Home</Text>
+        {/* category component */}
+        <View>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            {Array.from(Array(10)).map(index => (
+              <IconButton
+                key={index}
+                icon={({size, color}) => (
+                  <View
+                    style={{alignItems: 'center', justifyContent: 'center'}}>
+                    <Icon name="home-outline" size={size} color={color} />
+                    <Text style={{fontSize: 12}}>Home</Text>
+                  </View>
+                )}
+                style={styles.iconButton}
+              />
+            ))}
+          </ScrollView>
+        </View>
+        {/* Promotion component */}
+        <View>
+          <Text style={styles.productTextHeader}>Promosi Minggu ini</Text>
+          <FlatList
+            style={{marginTop: 6}}
+            data={Array(4)}
+            keyExtractor={(item, index) => item + index.toString()}
+            numColumns={2}
+            renderItem={() => (
+              <Pressable style={styles.pressableComponent}>
+                <Image source={adsPromosi} style={styles.pressableImg} />
+              </Pressable>
+            )}
+          />
+        </View>
+        {/* Product component */}
+        <View>
+          <Text style={styles.productTextHeader}>Terbaru</Text>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            style={{paddingVertical: 10}}>
+            {Array.from(Array(10)).map(index => (
+              <Card key={index} style={styles.cardContainer}>
+                <View style={styles.cardBody}>
+                  <Card.Cover style={styles.cardCover} source={kaosJpg} />
+                  <Card.Content
+                    style={{
+                      padding: 6,
+                    }}>
+                    <Text style={styles.cardTextLabel}>Kaos</Text>
+                    <Text>Rp. 79.000</Text>
+                  </Card.Content>
                 </View>
-              )}
-              style={styles.iconButton}
-            />
-          ))}
-        </ScrollView>
+              </Card>
+            ))}
+          </ScrollView>
+        </View>
       </View>
-      {/* Product component */}
-      <View>
-        <Text style={styles.productTextHeader}>Terbaru</Text>
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          style={{paddingVertical: 10}}>
-          {Array.from(Array(10)).map(index => (
-            <Card key={index} style={styles.cardContainer}>
-              <View style={styles.cardBody}>
-                <Card.Cover style={styles.cardCover} source={kaosJpg} />
-                <Card.Content
-                  style={{
-                    padding: 6,
-                  }}>
-                  <Text style={styles.cardTextLabel}>Kaos</Text>
-                  <Text>Rp. 79.000</Text>
-                </Card.Content>
-              </View>
-            </Card>
-          ))}
-        </ScrollView>
-      </View>
-    </View>
+      {/* atas view kosong untuk menangani komponen paling bawah tertutup navigation saat di scroll ke bawah */}
+      <View style={{marginTop: '15%'}} />
+    </ScrollView>
   );
 }
