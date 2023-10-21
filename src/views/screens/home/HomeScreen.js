@@ -90,7 +90,7 @@ export default function HomeScreen({navigation}) {
   ];
 
   return (
-    <ScrollView>
+    <ScrollView contentInset={{bottom: 50}}>
       <View style={styles.mainContainer}>
         <SearchBar />
         {/* mini list category component */}
@@ -124,7 +124,7 @@ export default function HomeScreen({navigation}) {
         <Popular />
       </View>
       {/* atas view kosong untuk menangani komponen paling bawah tertutup navigation saat di scroll ke bawah */}
-      <View style={{marginTop: '15%'}} />
+      {/* <View style={{marginTop: '15%'}} /> */}
     </ScrollView>
   );
 }
