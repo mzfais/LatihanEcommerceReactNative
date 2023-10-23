@@ -31,24 +31,8 @@ export default function DiscoverScreen() {
         'https://images.unsplash.com/photo-1605371924599-2d0365da1ae0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80',
     },
   ];
-  const width = useWindowDimensions();
-  const dataCarousel = [
-    {
-      id: 1,
-      imageUrl:
-        'https://ae01.alicdn.com/kf/H8e5fa453783741189a6fc522345d1f02g.jpg_640x640Q90.jpg_.webp',
-    },
-    {
-      id: 2,
-      imageUrl:
-        'https://images.tokopedia.net/img/cache/700/VqbcmM/2023/3/4/b2df8daa-8c86-4a0f-956e-fa39e093f211.jpg',
-    },
-    {
-      id: 3,
-      imageUrl:
-        'https://s0.bukalapak.com/img/01488152992/s-463-463/270750f7_586e_4774_bda8_3b82ffcccbb2.jpg.webp',
-    },
-  ];
+  const {width} = useWindowDimensions();
+
   return (
     <View style={StyleSheet.absoluteFillObject}>
       <MapView
@@ -72,6 +56,8 @@ export default function DiscoverScreen() {
           data={markers}
           scrollAnimationDuration={1000}
           renderItem={({item}) => (
+            // <Text>{item.image}</Text>
+            // <Image source={{uri: item.image}} />
             <Card>
               <Card.Cover source={{uri: item.image}} />
             </Card>
