@@ -5,6 +5,7 @@ import {
   useWindowDimensions,
   ScrollView,
   LogBox,
+  Platform,
 } from 'react-native';
 import React, {useEffect} from 'react';
 import SearchBar from '../../../components/Global/SearchBar';
@@ -65,6 +66,12 @@ const category = StyleSheet.create({
     color: 'gray',
   },
 });
+
+const renderBottomPaddingForAndroid = () => {
+  if (Platform.OS === 'android') {
+    return <View style={{marginTop: '15%'}} />;
+  }
+};
 export default function HomeScreen({navigation}) {
   useEffect(() => {
     // ignore pesan eror karena terdapat flatlist di dalam scrollview
@@ -123,8 +130,8 @@ export default function HomeScreen({navigation}) {
         <AdsPromotion />
         <Popular />
       </View>
-      {/* atas view kosong untuk menangani komponen paling bawah tertutup navigation saat di scroll ke bawah */}
-      {/* <View style={{marginTop: '15%'}} /> */}
+      {/* tambah view kosong untuk menangani komponen paling bawah tertutup navigation saat di scroll ke bawah */}
+      {renderBottomPaddingForAndroid()}
     </ScrollView>
   );
 }
