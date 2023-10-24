@@ -5728,10 +5728,10 @@
   "resolved" "https://registry.npmjs.org/react-native-linear-gradient/-/react-native-linear-gradient-2.8.3.tgz"
   "version" "2.8.3"
 
-"react-native-maps@^1.8.0":
-  "integrity" "sha512-KfVZ03L42+a22Fkcl2uDe5d+73BweTlcRUzm2G+aQUJ7fHrBxj7CuXWtKMSNpVDiO3YDCWcshiiyjSXxkd/qOw=="
-  "resolved" "https://registry.npmjs.org/react-native-maps/-/react-native-maps-1.8.0.tgz"
-  "version" "1.8.0"
+"react-native-maps@^1.7.1":
+  "integrity" "sha512-CHVLzL+Q2jiUGgbt4/vosxVI1SukWyaLGjD62VLgR/wZpnH4Umi9ql1bmKDPWcfj2C1QZwMU0Yc7rXTbvZUIiw=="
+  "resolved" "https://registry.npmjs.org/react-native-maps/-/react-native-maps-1.7.1.tgz"
+  "version" "1.7.1"
   dependencies:
     "@types/geojson" "^7946.0.10"
 

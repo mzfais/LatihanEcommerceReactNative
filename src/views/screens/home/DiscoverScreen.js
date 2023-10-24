@@ -1,6 +1,6 @@
-import {View, StyleSheet, useWindowDimensions} from 'react-native';
+import {View, StyleSheet, useWindowDimensions, Platform} from 'react-native';
 import React from 'react';
-import MapView from 'react-native-maps';
+import MapView, {PROVIDER_DEFAULT, PROVIDER_GOOGLE} from 'react-native-maps';
 import Carousel from 'react-native-reanimated-carousel';
 import {Card} from 'react-native-paper';
 
@@ -32,15 +32,22 @@ export default function DiscoverScreen() {
     },
   ];
   const {width} = useWindowDimensions();
+  const LATITUDE = 40.665364;
+  const LONGITUDE = -74.213377;
+  const LATITUDE_DELTA = 0.0043;
+  const LONGITUDE_DELTA = 0.0034;
 
   return (
     <View style={StyleSheet.absoluteFillObject}>
       <MapView
+        provider={
+          Platform.OS === 'android' ? PROVIDER_GOOGLE : PROVIDER_DEFAULT
+        }
         initialRegion={{
-          latitude: 37.78825,
-          longitude: -122.4324,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
+          latitude: LATITUDE,
+          longitude: LONGITUDE,
+          latitudeDelta: LATITUDE_DELTA,
+          longitudeDelta: LONGITUDE_DELTA,
         }}
         style={StyleSheet.absoluteFillObject}
       />
