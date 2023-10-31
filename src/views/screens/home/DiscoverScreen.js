@@ -40,9 +40,9 @@ export default function DiscoverScreen() {
   return (
     <View style={StyleSheet.absoluteFillObject}>
       <MapView
-        provider={
-          Platform.OS === 'android' ? PROVIDER_GOOGLE : PROVIDER_DEFAULT
-        }
+        // provider={
+        //   Platform.OS === 'android' ? PROVIDER_GOOGLE : PROVIDER_DEFAULT
+        // }
         initialRegion={{
           latitude: LATITUDE,
           longitude: LONGITUDE,
