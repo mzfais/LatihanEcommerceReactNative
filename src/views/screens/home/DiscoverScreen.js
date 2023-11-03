@@ -1,9 +1,15 @@
-import {View, StyleSheet, useWindowDimensions, Platform} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  useWindowDimensions,
+  Linking,
+  Platform,
+} from 'react-native';
 import React from 'react';
-import MapView, {PROVIDER_DEFAULT, PROVIDER_GOOGLE} from 'react-native-maps';
+import MapView from 'react-native-maps';
 import Carousel from 'react-native-reanimated-carousel';
-import {Card} from 'react-native-paper';
-
+import {Card, IconButton, Text} from 'react-native-paper';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 export default function DiscoverScreen() {
   const markers = [
     {
@@ -58,15 +64,60 @@ export default function DiscoverScreen() {
         <Carousel
           loop={false} // biar tidak looping
           width={width - 30}
-          height={width / 2}
+          height={width / 2 + 50}
           autoPlay={false} // matikan autoplay
           data={markers}
           scrollAnimationDuration={1000}
+          style={{
+            top: 20,
+          }}
           renderItem={({item}) => (
             // <Text>{item.image}</Text>
             // <Image source={{uri: item.image}} />
             <Card>
-              <Card.Cover source={{uri: item.image}} />
+              <View
+                style={{
+                  overflow: 'hidden',
+                  borderTopStartRadius: 12,
+                  borderTopEndRadius: 12,
+                }}>
+                <Card.Cover
+                  source={{uri: item.image}}
+                  style={{
+                    height: 150,
+                    borderRadius: 0,
+                  }}
+                />
+                <Card.Content
+                  style={{
+                    padding: 16,
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                  }}>
+                  <View style={{border: 2, borderColor: 'red'}}>
+                    <Text
+                      style={{
+                        fontSize: 18,
+                        fontWeight: '500',
+                      }}>
+                      {item.title}
+                    </Text>
+                    <Text>{item.address}</Text>
+                  </View>
+                  <IconButton
+                    mode="outlined"
+                    icon={() => <Ionicons size={24} name="locate" />}
+                    onPress={() =>
+                      Linking.openURL(
+                        Platform.OS === 'ios'
+                          ? `maps://app?daddr=${item.coordinate.latitude},${item.coordinate.longitude}`
+                          : `google.navigation:q=${item.coordinate.latitude},${item.coordinate.longitude}`,
+                      )
+                    }
+                  />
+                </Card.Content>
+              </View>
             </Card>
           )}
         />
