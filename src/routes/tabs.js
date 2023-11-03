@@ -1,7 +1,7 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import HomeScreen from '../views/screens/home/HomeScreen';
-import FavoriteScreen from '../views/screens/home/FavoriteScreen';
+import CartScreen from '../views/screens/home/CartScreen';
 import Icon from 'react-native-vector-icons/Ionicons';
 import ProductScreen from '../views/screens/home/ProductScreen';
 import DiscoverScreen from '../views/screens/home/DiscoverScreen';
@@ -62,6 +62,21 @@ export default function HomeTabs() {
         options={{
           tabBarIcon: ({focused, color, size}) => (
             <Icon
+              name={focused ? 'cart' : 'cart-outline'}
+              size={size}
+              color={color}
+            />
+          ),
+          headerTitle: 'Cart',
+          tabBarLabel: 'Cart',
+        }}
+        name="Favorite"
+        component={CartScreen}
+      />
+      <Tab.Screen
+        options={{
+          tabBarIcon: ({focused, color, size}) => (
+            <Icon
               name={focused ? 'list' : 'list-outline'}
               size={size}
               color={color}
@@ -72,21 +87,6 @@ export default function HomeTabs() {
         }}
         name="Product"
         component={ProductScreen}
-      />
-      <Tab.Screen
-        options={{
-          tabBarIcon: ({focused, color, size}) => (
-            <Icon
-              name={focused ? 'heart' : 'heart-outline'}
-              size={size}
-              color={color}
-            />
-          ),
-          headerTitle: 'Favourite',
-          tabBarLabel: 'Favourite',
-        }}
-        name="Favorite"
-        component={FavoriteScreen}
       />
     </Tab.Navigator>
   );
